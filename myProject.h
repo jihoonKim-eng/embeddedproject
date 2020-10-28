@@ -1,7 +1,7 @@
 int printMyName1(void){
-    printf("Jihoon, KIm");
+    printf("Jihoon, KIm\n");
 }
 
 int printMyName2(void){
-    printf("Hakjung, KIm");
+    printf("Hakjung, KIm\n");
 }
