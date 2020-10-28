@@ -1,8 +1,11 @@
-final.elf: 1.o 2.o
-	gcc 1.o 2.o -o final.elf
+final.elf: 1.o 2.o main.c
+	gcc main.c -l inout -L -o final.elf
 
+libinout.so: 1.o 2.o
+	gcc -o libinout.so -shared -fPIC 1.o 2.o
+	
 2.o: 2.c myProject.h
-	gcc 2.c -c -o 2.o 
+	gcc -o 2.o -shared -fPIC -c 2.c 
 
 1.o: 1.c myProject.h
-	gcc 1.c -c -o 1.o
+	gcc -o 1.o -shared -fPIC -c 1.c
