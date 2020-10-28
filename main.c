@@ -5,5 +5,5 @@ int main(void)
 {
     printf("Chief name is 김지훈 \n");
     printMyName1();
-  //  printfMyName2();
+    printMyName2();
 }
