@@ -1,0 +1,12 @@
+all: libMyPeri.a buzzertest.elf
+
+buzzertest.elf: libMyPeri.a buzzer.h buzzertest.c
+	arm-linux-gnueabi-gcc -o buzzertest.elf buzzertest.c -L. -lMyPeri
+
+libMyPeri.a: buzzer.h buzzer.c
+	arm-linux-gnueabi-gcc -c buzzer.c -o buzzer.o
+	arm-linux-gnueabi-ar rc libMyPeri.a buzzer.o
+
+clean:
+	rm -rf *.o *.a *.elf
+	
