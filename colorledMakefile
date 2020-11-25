@@ -1,0 +1,12 @@
+all: libMyPeri.a colorLEDtest.elf
+
+colorLEDtest.elf: libMyPeri.a colorLED.h colorLEDtest.c
+	arm-linux-gnueabi-gcc -o colorLEDtest.elf colorLEDtest.c -L. -lMyPeri
+
+libMyPeri.a: colorLED.h colorLED.c
+	arm-linux-gnueabi-gcc -c colorLED.c -o colorLED.o
+	arm-linux-gnueabi-ar rc libMyPeri.a colorLED.o
+
+clean:
+	rm -rf *.o *.a *.elf
+	
