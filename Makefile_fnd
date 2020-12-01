@@ -1,0 +1,12 @@
+all: libMyPeri.a fndtest.elf
+
+fndtest.elf: libMyPeri.a fnd.h fndtest.c
+	arm-linux-gnueabi-gcc -o fndtest.elf fndtest.c -L. -lMyPeri
+
+libMyPeri.a: fnd.h fnd.c
+	arm-linux-gnueabi-gcc -c fnd.c -o fnd.o
+	arm-linux-gnueabi-ar rc libMyPeri.a fnd.o
+
+clean:
+	rm -rf *.o *.a *.elf
+	
