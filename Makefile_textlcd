@@ -1,0 +1,11 @@
+all: libMyPeri.a textlcdtest.elf
+
+textlcdtest.elf: libMyPeri.a textlcd.h textlcdtest.c
+	arm-linux-gnueabi-gcc -o textlcdtest.elf textlcdtest.c -L. -lMyPeri
+
+libMyPeri.a: textlcd.h textlcd.c
+	arm-linux-gnueabi-gcc -c textlcd.c -o textlcd.o
+	arm-linux-gnueabi-ar rc libMyPeri.a textlcd.o
+
+clean:
+	rm -rf *.o *.a *.elf
