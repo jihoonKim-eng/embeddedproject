@@ -56,9 +56,6 @@ int main(void)
       }
 
    
-    
-
-
 
 	while (1)
 	{
@@ -110,53 +107,53 @@ int main(void)
 			else if (key_home_pressed==1 && key_search_pressed==1)
           		{  show("puzzle4.bmp");
              			pic_num=4;
-                key_home_pressed==0;
-                key_search_pressed==0;
-            }
-        else if (key_back_pressed==1 && key_search_pressed==1)
-              { show("puzzle1.bmp");
-               pic_num=1;
-                 key_back_pressed==0;
-                 key_search_pressed==0;
-                }
-     break;
+                		key_home_pressed==0;
+                		key_search_pressed==0;
+            		}
+        		else if (key_back_pressed==1 && key_search_pressed==1)
+              		{ show("puzzle1.bmp");
+               		  pic_num=1;
+                     	  key_back_pressed==0;
+                 	  key_search_pressed==0;
+               		 }
+    			 break;
      
-/*puzzle 3번 이 떠있을때*/
-     case 3:
-         if(key_home_pressed==1 && key_back_pressed==1)
-            {show("puzzle1.bmp");
-                pic_num=1;
-                key_home_pressed==0;
-                key_back_pressed==0;
-              }
-        else if (key_home_pressed==1 && key_search_pressed==1)
-           {  show("puzzle5.bmp");
-             pic_num=5;
-                key_home_pressed==0;
-                key_search_pressed==0;
-             }
-        else if (key_back_pressed==1 && key_search_pressed==1)
-               {show("puzzle4.bmp");
-               pic_num=4;
-                key_back_pressed==0;
-                key_search_pressed==0;
-                  }
-     break;
+		/*puzzle 3번 이 떠있을때*/
+     			case 3:
+         		if(key_home_pressed==1 && key_back_pressed==1)
+           		 {show("puzzle1.bmp");
+                		pic_num=1;
+                		key_home_pressed==0;
+               			 key_back_pressed==0;
+             		 }
+        		else if (key_home_pressed==1 && key_search_pressed==1)
+           		{  show("puzzle5.bmp");
+            		   	pic_num=5;
+         	      		key_home_pressed==0;
+            	    		key_search_pressed==0;
+          		 }
+       			else if (key_back_pressed==1 && key_search_pressed==1)
+               		{show("puzzle4.bmp");
+               			pic_num=4;
+                		key_back_pressed==0;
+                		key_search_pressed==0;
+                 	 }
+     			break;
 
-/*puzzle 4번 이 떠있을때*/
-     case 4:
-         if(key_home_pressed==1 && key_back_pressed==1)
-            {show("puzzle6.bmp");
-                pic_num=6;
-              key_home_pressed==0;
-              key_back_pressed==0; 
-              }
-        else if (key_home_pressed==1 && key_search_pressed==1)
-            { show("puzzle6.bmp");
-             pic_num=2;
-                key_home_pressed==0;
-                key_search_pressed==0;
-                }
+			/*puzzle 4번 이 떠있을때*/
+    			 case 4:
+         		if(key_home_pressed==1 && key_back_pressed==1)
+           		 {show("puzzle6.bmp");
+              		  pic_num=6;
+            		  key_home_pressed==0;
+           		   key_back_pressed==0; 
+           		   }
+       		 else if (key_home_pressed==1 && key_search_pressed==1)
+       		     { show("puzzle6.bmp");
+         		    pic_num=2;
+          		    key_home_pressed==0;
+                	key_search_pressed==0;
+              	  }
         else if (key_back_pressed==1 && key_search_pressed==1)
              {  show("puzzle3.bmp");
                pic_num=3; 
@@ -194,7 +191,7 @@ int main(void)
                 pic_num=4;
                  key_home_pressed==0;
                  key_back_pressed==0;        
-}
+	}
         else if (key_home_pressed==1 && key_search_pressed==1)
             { show("puzzle1.bmp");
              pic_num=1;
@@ -207,25 +204,12 @@ int main(void)
                   key_back_pressed==0;
                   key_search_pressed==0;
                 }
-     break;
+    		 break;
     }
 
 
 
-
-
-
-
-
-
-
-
-
-	}
-
-		
-		
-	}
+}
 
 	ledLibInit();   //led
 	sleep(1);
@@ -254,13 +238,13 @@ int main(void)
         sleep(1);
         buzzerPlaySong(7);
         sleep(1);
-		 buzzerStopSong();			
+	buzzerStopSong();			
         buzzerExit();       //buzzer	
 
 	buttonExit();   //button
 
 
-    pwmLedInit();              //pwmled
+    	pwmLedInit();              //pwmled
 	pwmSetPercent(100,0);
 	pwmSetPercent(0,1);
 	pwmSetPercent(0,2);
