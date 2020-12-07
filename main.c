@@ -29,42 +29,9 @@ int main(void)
 {	
 
    show("exam1.bmp");
-	ledLibInit();   //led
-	sleep(1);
-	
-	ledLibRaw(0xFF);
-	sleep(3);
-	ledLibRaw(0xAA);
-	sleep(3);
-	ledLibEXT();    //led
 
 
-        buzzerInit();        //buzzer
-        buzzerPlaySong(0);
-        sleep(1);
-        buzzerPlaySong(1);
-        sleep(1);        
-        buzzerPlaySong(2);
-        sleep(1);
-        buzzerPlaySong(3);
-        sleep(1);
-        buzzerPlaySong(4);
-        sleep(1);
-        buzzerPlaySong(5);
-        sleep(1);
-        buzzerPlaySong(6);
-        sleep(1);
-        buzzerPlaySong(7);
-        sleep(1);
-		 buzzerStopSong();			
-        buzzerExit();       //buzzer
-/*
 
-	if (buttonInit() == 0) //button
-	{
-		printf ("Button init Failed!\r\n");
-		return 0;
-	}
 	int messageID = msgget (MESSAGE_ID, IPC_CREAT|0666);	//To Receive Message from Library.
 	BUTTON_MSG_T rxMsg;
 
@@ -100,8 +67,37 @@ int main(void)
 		
 		
 	}
-*/
+
+	ledLibInit();   //led
+	sleep(1);
 	
+	ledLibRaw(0xFF);
+	sleep(3);
+	ledLibRaw(0xAA);
+	sleep(3);
+	ledLibEXT();    //led
+
+
+        buzzerInit();        //buzzer
+        buzzerPlaySong(0);
+        sleep(1);
+        buzzerPlaySong(1);
+        sleep(1);        
+        buzzerPlaySong(2);
+        sleep(1);
+        buzzerPlaySong(3);
+        sleep(1);
+        buzzerPlaySong(4);
+        sleep(1);
+        buzzerPlaySong(5);
+        sleep(1);
+        buzzerPlaySong(6);
+        sleep(1);
+        buzzerPlaySong(7);
+        sleep(1);
+		 buzzerStopSong();			
+        buzzerExit();       //buzzer	
+
 	buttonExit();   //button
 
 
