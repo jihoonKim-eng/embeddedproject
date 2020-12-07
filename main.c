@@ -23,10 +23,12 @@
 #include "fnd.h"
 #include "temperature.h"
 #include "textlcd.h"
-
+#include "bitmap.h"
 
 int main(void)
 {	
+
+   show("exam1.bmp");
 	ledLibInit();   //led
 	sleep(1);
 	
