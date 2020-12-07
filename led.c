@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 #include "led.h"
 
 static int fd=0;
