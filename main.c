@@ -53,6 +53,12 @@ void* dosome(void *arg) //thread1 fnd에 남은시간 표시
 		aa = 3;  
 		fndOff();
 		writeTextLcd("   Fail!!!   ","",1);
+		writeTextLcd("","   Try one more",2);
+	 buzzerPlaySong(6);
+        usleep(100000);
+        buzzerPlaySong(7);
+        usleep(100000);
+        buzzerExit(); 
 	  pthread_exit(0);
  
    }
