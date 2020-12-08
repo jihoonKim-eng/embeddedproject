@@ -1,0 +1,15 @@
+/*count donw 진행, time over 시 end_pic 띄우는 함수*/
+
+
+
+int sec;    //전역변수로 선언
+
+
+/*easy mode count down code*/
+
+  for(sec=30;sec>0;sec--){
+    fndDisp(sec,1);  
+    sleep(1000);
+  }
+  pic_num=100;                      // time over.bmp 만들고 넘버링을 100으로 할것 
+                                    // case 문에 pic_num 100인경우 만들고 그때 time over.bmp 열리게 생성 
