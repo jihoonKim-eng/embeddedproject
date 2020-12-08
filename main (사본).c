@@ -33,6 +33,9 @@ int main(void)
 {	
 
 	buttonInit();
+	buzzerInit();        //buzzer
+	ledLibInit();   //led
+	pwmLedInit();              //pwmled
 
 
 	int messageID = msgget(MESSAGE_ID, IPC_CREAT|0666);	//To Receive Message from Library.
@@ -42,6 +45,9 @@ int main(void)
 
 while(1)
 {
+	pwmSetPercent(0,0);
+	pwmSetPercent(0,1);
+	pwmSetPercent(100,2);
     show("start_pic.bmp");
 
 
@@ -116,7 +122,7 @@ switch(pic_num)
                pic_num=1;
                  key_back_pressed = 0;
                  key_search_pressed = 0;
-                    sleep(3);
+                    sleep(2);
                     show ("end_pic.bmp");
                 }
      break;
@@ -128,7 +134,7 @@ switch(pic_num)
                 pic_num=1;
                 key_home_pressed = 0;
                 key_back_pressed = 0;
-                    sleep(3);
+                    sleep(2);
                     show ("end_pic.bmp");                    
               }
         else if (key_home_pressed==1 && key_search_pressed==1)
@@ -202,7 +208,7 @@ switch(pic_num)
              pic_num=1;
                 key_home_pressed = 0;
                  key_search_pressed = 0;      
-                    sleep(3);
+                    sleep(2);
                     show ("end_pic.bmp");      
                 }
         else if (key_back_pressed==1 && key_search_pressed==1)
@@ -219,57 +225,45 @@ switch(pic_num)
 
 
 
-
-
-
-
-
-
-
-	}
-   
-		
-		
-	}
-
-	ledLibInit();   //led
-	sleep(1);
+if(pic_num==1){
 	
-	ledLibRaw(0xFF);
-	sleep(3);
+	pwmSetPercent(100,0);
+	pwmSetPercent(100,1);
+	pwmSetPercent(100,2);
+	pwmInactiveAll();          //pwmled
+		ledLibRaw(0xFF);
+	usleep(500000);
 	ledLibRaw(0xAA);
-	sleep(3);
+	usleep(500000);
+	ledLibRaw(0xFF);
+	usleep(500000);
+	ledLibRaw(0xAA);
+	usleep(500000);
+	ledLibRaw(0xFF);
+	usleep(500000);
+	ledLibRaw(0xAA);	
+	usleep(500000);	
 	ledLibEXT();    //led
-
-
-        buzzerInit();        //buzzer
         buzzerPlaySong(0);
-        sleep(1);
+        usleep(300000);
         buzzerPlaySong(1);
-        sleep(1);        
+        usleep(300000);        
         buzzerPlaySong(2);
-        sleep(1);
+        usleep(300000);
         buzzerPlaySong(3);
-        sleep(1);
+        usleep(300000);
         buzzerPlaySong(4);
-        sleep(1);
+        usleep(300000);
         buzzerPlaySong(5);
-        sleep(1);
+        usleep(300000);
         buzzerPlaySong(6);
-        sleep(1);
+        usleep(300000);
         buzzerPlaySong(7);
-        sleep(1);
+        usleep(300000);
 		 buzzerStopSong();			
         buzzerExit();       //buzzer	
 
 	buttonExit();   //button
-
-
-    pwmLedInit();              //pwmled
-	pwmSetPercent(100,0);
-	pwmSetPercent(0,1);
-	pwmSetPercent(0,2);
-	pwmInactiveAll();          //pwmled
 
                                                    //temperature
         char *buffer; int file;
@@ -289,24 +283,39 @@ switch(pic_num)
 		double temp = (double)value*0.0625;
 		//1비트가 0.0625도
 		printf("Current Temp: %lf \n", temp);
-	                                     //temperature                                               
+	                                     //temperature  
 
-
-char *name1 = "schoolsong";
-char *name2 = "solo";
-char *singer1 = "dont know";
-char *singer2 = "geny";
-char keyboard_1; 
-
-   
-     
    writeTextLcd("welcome","",1);
-   writeTextLcd("","flag game",2);                                               
+   writeTextLcd("","oo",2);                                               
  
 
-   fndDisp(111,1);
+   fndDisp(11111,1);
 
-        fndOff();
+       /* fndOff(); */
+
+
+
+
+
+}
+
+
+
+
+
+
+
+	}
+   
+		
+		
+	}
+
+	
+	                                             
+
+
+
 
 return 0;
 

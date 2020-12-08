@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
+#include <pthread.h>
 #include "buzzer.h"
 #include "led.h"
 #include "button.h"
@@ -23,10 +24,48 @@
 #include "temperature.h"
 #include "textlcd.h"
 #include "bitmap.h"
+#define MUTEX_ENABLE 0
 int pic_num=0;
 int key_home_pressed  = 0;
 int key_back_pressed  = 0;
 int key_search_pressed = 0;  
+int sec=100;    //전역변수로 선언
+int aa;
+
+
+pthread_t tid[2];
+pthread_mutex_t lock;
+
+void* dosome(void *arg) //thread1 fnd에 남은시간 표시
+{
+
+	 for(sec=5;sec>=0;sec--){
+    fndDisp(sec,1);  
+    sleep(1);
+  }
+		aa = 3;  
+	  pthread_exit(0);
+
+   }
+
+
+/*void* dosome2(void *arg) //thread2 txtlcd에 온도표시
+{
+   
+char *name1 = "schoolsong";
+char *name2 = "solo";
+char *singer1 = "dont know";
+char *singer2 = "geny";
+char keyboard_1;  
+
+
+while(1)
+{
+
+
+}
+
+   }*/
 
 
 int main(void)
@@ -41,6 +80,9 @@ int main(void)
 	int messageID = msgget(MESSAGE_ID, IPC_CREAT|0666);	//To Receive Message from Library.
 	BUTTON_MSG_T rxMsg;
 
+int err,arr;
+  
+ 
 
 
 while(1)
@@ -49,7 +91,7 @@ while(1)
 	pwmSetPercent(0,1);
 	pwmSetPercent(100,2);
     show("start_pic.bmp");
-
+	
 
      while(1)   //Wait here until key home pressed.
       { 
@@ -63,12 +105,17 @@ while(1)
  show("puzzle3.bmp");
  pic_num = 3;
    
-    
+    		 err = pthread_create(&(tid[1]), NULL, &dosome, NULL); 
+  
+		/*arr = pthread_create(&(tid[2]), NULL, &dosome2, NULL); */
 
-
+int timeout = 0;
 
 	while (1)
 	{
+		
+	 
+		
 		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
 		printf ("ReceivedMessage:%d-%d",rxMsg.keyInput, rxMsg.pressed);
 		//rxMsg.pressed == 0 -> Really Pressed.
@@ -95,18 +142,27 @@ while(1)
 				printf("Volume down key):");
 			break;
 	}
+	
+
+	 
 switch(pic_num)
     {
     /*puzzle1번 사진이 떠있는경우-> 게임종료*/
      case 1:                          //puzzle1번 사진이 떠있는경우
           show ("end_pic.bmp");      //게임 종료안내 
 								//while 문 빠져나가기(작성해야댐)
+	/* if(aa==3)
+	 {show("game_over.bmp");} */
      break;
 
 /*puzzle2번 사진이 떠있는경우*/
-     case 2:                          
+     case 2:   
+	 if(aa==3)
+	 {show("game_over.bmp");
+		 break;}				
         if(key_home_pressed==1 && key_back_pressed==1)
            { show("puzzle5.bmp");
+			
                 pic_num=5;
                 key_home_pressed = 0; 
                 key_back_pressed = 0;
@@ -125,10 +181,14 @@ switch(pic_num)
                     sleep(2);
                     show ("end_pic.bmp");
                 }
+			
      break;
-     
+ 
 /*puzzle 3번 이 떠있을때*/
-     case 3:
+     case 3: 
+      if(aa==3)
+	 {show("game_over.bmp");
+		 break;}	
          if(key_home_pressed==1 && key_back_pressed==1)
             {show("puzzle1.bmp");
                 pic_num=1;
@@ -149,10 +209,14 @@ switch(pic_num)
                 key_back_pressed = 0;
                 key_search_pressed = 0;
                   }
+                
      break;
 
 /*puzzle 4번 이 떠있을때*/
-     case 4:
+     case 4: 
+      if(aa==3)
+	 {show("game_over.bmp");
+		 break;}	
          if(key_home_pressed==1 && key_back_pressed==1)
             {show("puzzle6.bmp");
                 pic_num=6;
@@ -170,11 +234,15 @@ switch(pic_num)
                pic_num=3; 
                 key_back_pressed = 0;
                 key_search_pressed = 0;       
-   }  
+			}
+			
      break;
 
 /*puzzle 5번 이 떠있을때*/
-     case 5:
+     case 5: 
+      if(aa==3)
+	 {show("game_over.bmp");
+		 break;}	
          if(key_home_pressed==1 && key_back_pressed==1)
           {  show("puzzle2.bmp");
                 pic_num=2;
@@ -193,10 +261,14 @@ switch(pic_num)
                key_back_pressed = 0;
                key_search_pressed = 0;
                 }
+              
      break;
 
 /*puzzle 6번 이 떠있을때*/
      case 6:
+      if(aa==3)
+	 {show("game_over.bmp");
+		 break;}	
          if(key_home_pressed==1 && key_back_pressed==1)
            { show("puzzle4.bmp");
                 pic_num=4;
@@ -217,9 +289,17 @@ switch(pic_num)
                   key_back_pressed = 0;
                   key_search_pressed = 0;
                 }
-     break;
 
-    }
+     break;
+     
+  }
+		/*case 7:
+		if(aa==3)
+	 {show("game_over.bmp");
+	 }
+		break;
+	}*/
+    
 
 
 
@@ -289,15 +369,15 @@ if(pic_num==1){
    writeTextLcd("","oo",2);                                               
  
 
-   fndDisp(11111,1);
+  // fndDisp(11111,1);//
 
        /* fndOff(); */
 
 
 
 
-
 }
+
 
 
 
@@ -309,14 +389,15 @@ if(pic_num==1){
    
 		
 		
-	}
+	
 
 	
 	                                             
 
-
-
+}
+pthread_join (tid[0], NULL); 
+/*pthread_join (tid[1], NULL);*/
 
 return 0;
-
 }
+
