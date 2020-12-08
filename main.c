@@ -32,33 +32,30 @@ int key_search_pressed = 0;
 int main(void)
 {	
 
+	buttonInit();
 
 
-
-	int messageID = msgget (MESSAGE_ID, IPC_CREAT|0666);	//To Receive Message from Library.
+	int messageID = msgget(MESSAGE_ID, IPC_CREAT|0666);	//To Receive Message from Library.
 	BUTTON_MSG_T rxMsg;
 
-show("start_pic.bmp");
+
 
 while(1)
 {
-    
+    show("start_pic.bmp");
+
 
      while(1)   //Wait here until key home pressed.
       { 
                 msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0,0);
                 printf ("ReceivedMessage:%d-%d",rxMsg.keyInput, rxMsg.pressed);
-      if (rxMsg.pressed == 0) continue;
-                //rxMsg.pressed == 0 -> Really Pressed.                         
-                                                                  
-                if (rxMsg.keyInput == KEY_HOME ){         
-                 show("puzzle3.bmp");
-                 pic_num=3;
-                 break;                  
-                     }            
-                  
+                         if (rxMsg.pressed == 0) continue;                               
+                if (rxMsg.keyInput == KEY_HOME ) 
+                 break;                                  
       }
-
+                
+ show("puzzle3.bmp");
+ pic_num = 3;
    
     
 
@@ -66,11 +63,11 @@ while(1)
 
 	while (1)
 	{
-		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,IPC_NOWAIT);
+		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
 		printf ("ReceivedMessage:%d-%d",rxMsg.keyInput, rxMsg.pressed);
 		//rxMsg.pressed == 0 -> Really Pressed.
 
-		
+		 if (rxMsg.pressed == 0) continue;
 		switch(rxMsg.keyInput)
 		{
 			case KEY_HOME: 
@@ -91,7 +88,7 @@ while(1)
 			case KEY_VOLUMEDOWN:
 				printf("Volume down key):");
 			break;
-	
+	}
 switch(pic_num)
     {
     /*puzzle1번 사진이 떠있는경우-> 게임종료*/
@@ -105,20 +102,22 @@ switch(pic_num)
         if(key_home_pressed==1 && key_back_pressed==1)
            { show("puzzle5.bmp");
                 pic_num=5;
-                key_home_pressed==0; 
-                key_back_pressed==0;
+                key_home_pressed = 0; 
+                key_back_pressed = 0;
              }
         else if (key_home_pressed==1 && key_search_pressed==1)
            {  show("puzzle4.bmp");
              pic_num=4;
-                key_home_pressed==0;
-                key_search_pressed==0;
+                key_home_pressed = 0;
+                key_search_pressed = 0;
             }
         else if (key_back_pressed==1 && key_search_pressed==1)
               { show("puzzle1.bmp");
                pic_num=1;
-                 key_back_pressed==0;
-                 key_search_pressed==0;
+                 key_back_pressed = 0;
+                 key_search_pressed = 0;
+                    sleep(3);
+                    show ("end_pic.bmp");
                 }
      break;
      
@@ -127,20 +126,22 @@ switch(pic_num)
          if(key_home_pressed==1 && key_back_pressed==1)
             {show("puzzle1.bmp");
                 pic_num=1;
-                key_home_pressed==0;
-                key_back_pressed==0;
+                key_home_pressed = 0;
+                key_back_pressed = 0;
+                    sleep(3);
+                    show ("end_pic.bmp");                    
               }
         else if (key_home_pressed==1 && key_search_pressed==1)
            {  show("puzzle5.bmp");
              pic_num=5;
-                key_home_pressed==0;
-                key_search_pressed==0;
+                key_home_pressed = 0;
+                key_search_pressed = 0;
              }
         else if (key_back_pressed==1 && key_search_pressed==1)
                {show("puzzle4.bmp");
                pic_num=4;
-                key_back_pressed==0;
-                key_search_pressed==0;
+                key_back_pressed = 0;
+                key_search_pressed = 0;
                   }
      break;
 
@@ -149,20 +150,20 @@ switch(pic_num)
          if(key_home_pressed==1 && key_back_pressed==1)
             {show("puzzle6.bmp");
                 pic_num=6;
-              key_home_pressed==0;
-              key_back_pressed==0; 
+              key_home_pressed = 0;
+              key_back_pressed = 0; 
               }
         else if (key_home_pressed==1 && key_search_pressed==1)
-            { show("puzzle6.bmp");
+            { show("puzzle2.bmp");
              pic_num=2;
-                key_home_pressed==0;
-                key_search_pressed==0;
+                key_home_pressed = 0;
+                key_search_pressed = 0;
                 }
         else if (key_back_pressed==1 && key_search_pressed==1)
              {  show("puzzle3.bmp");
                pic_num=3; 
-                key_back_pressed==0;
-                key_search_pressed==0;       
+                key_back_pressed = 0;
+                key_search_pressed = 0;       
    }  
      break;
 
@@ -171,20 +172,20 @@ switch(pic_num)
          if(key_home_pressed==1 && key_back_pressed==1)
           {  show("puzzle2.bmp");
                 pic_num=2;
-                key_home_pressed==0;
-                key_back_pressed==0;
+                key_home_pressed = 0;
+                key_back_pressed = 0;
             }
         else if (key_home_pressed==1 && key_search_pressed==1)
            {  show("puzzle3.bmp");
              pic_num=3;
-             key_home_pressed==0;
-             key_search_pressed==0; 
+             key_home_pressed = 0;
+             key_search_pressed = 0; 
                 }
         else if (key_back_pressed==1 && key_search_pressed==1)
               { show("puzzle6.bmp");
                pic_num=6;
-               key_back_pressed==0;
-               key_search_pressed==0;
+               key_back_pressed = 0;
+               key_search_pressed = 0;
                 }
      break;
 
@@ -193,22 +194,25 @@ switch(pic_num)
          if(key_home_pressed==1 && key_back_pressed==1)
            { show("puzzle4.bmp");
                 pic_num=4;
-                 key_home_pressed==0;
-                 key_back_pressed==0;        
-}
+                 key_home_pressed = 0;
+                 key_back_pressed = 0;        
+            }
         else if (key_home_pressed==1 && key_search_pressed==1)
             { show("puzzle1.bmp");
              pic_num=1;
-                key_home_pressed==0;
-                 key_search_pressed==0;            
+                key_home_pressed = 0;
+                 key_search_pressed = 0;      
+                    sleep(3);
+                    show ("end_pic.bmp");      
                 }
         else if (key_back_pressed==1 && key_search_pressed==1)
              {  show("puzzle5.bmp");
                pic_num=5;
-                  key_back_pressed==0;
-                  key_search_pressed==0;
+                  key_back_pressed = 0;
+                  key_search_pressed = 0;
                 }
      break;
+
     }
 
 
@@ -223,7 +227,7 @@ switch(pic_num)
 
 
 	}
-
+   
 		
 		
 	}
@@ -294,17 +298,16 @@ char *singer1 = "dont know";
 char *singer2 = "geny";
 char keyboard_1; 
 
-   while(1)
-{
+   
      
    writeTextLcd("welcome","",1);
    writeTextLcd("","flag game",2);                                               
  
 
    fndDisp(111,1);
-}
+
         fndOff();
-}
+
 return 0;
 
 }
