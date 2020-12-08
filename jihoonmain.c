@@ -32,6 +32,9 @@ int key_search_pressed = 0;
 int sec=100;    //전역변수로 선언
 int aa;
 
+int start_once1=0;
+int start_once2=0;
+int random = 0;
 
 pthread_t tid[2];
 pthread_mutex_t lock;
@@ -90,8 +93,16 @@ while(1)
 	pwmSetPercent(0,0);
 	pwmSetPercent(0,1);
 	pwmSetPercent(100,2);
-    show("start_pic.bmp");
+   	show("start_pic.bmp");
 	
+	/*random open picture*/
+	do{	
+		random = (rand()%4)+2				// puzzle1 은 정답이므로 랜덤하게 나와야하는건 2~6중 랜덤한 수를 하나 뽑아줌
+			
+		start_once1 =1;				//위에다 int로 선언해주기, 랜덤하게 스타트하는 부분이 1번만 실행되게 해주는 변수 
+	}while(start_once1 == 0);
+	
+		
 
      while(1)   //Wait here until key home pressed.
       { 
@@ -101,9 +112,36 @@ while(1)
                 if (rxMsg.keyInput == KEY_HOME ) 
                  break;                                  
       }
-                
- show("puzzle3.bmp");
- pic_num = 3;
+do{
+switch(random)
+{ case 2: 
+ 	show("puzzle2.bmp");
+ 	pic_num=2;
+	break;	
+ 
+  case 3: 
+ 	show("puzzle3.bmp");
+ 	pic_num=3;
+	break;	
+
+  case 4: 
+ 	show("puzzle4.bmp");
+ 	pic_num=4;
+	break;	
+ 
+  case 5: 
+ 	show("puzzle5.bmp");
+ 	pic_num=5;
+	break;	
+
+  case 6: 
+ 	show("puzzle6.bmp");
+ 	pic_num=6;
+	break;	
+
+}
+	open_once2=1;	
+}while(open_once2==0);
    
     		 err = pthread_create(&(tid[1]), NULL, &dosome, NULL); 
   
