@@ -32,6 +32,11 @@ int key_search_pressed = 0;
 int sec=100;    //전역변수로 선언
 int aa;
 
+int start_once1=0;
+int start_once2=0;
+
+
+
 
 pthread_t tid[2];
 pthread_mutex_t lock;
@@ -39,33 +44,21 @@ pthread_mutex_t lock;
 void* dosome(void *arg) //thread1 fnd에 남은시간 표시
 {
 
-	 for(sec=5;sec>=0;sec--){
-    fndDisp(sec,1);  
+	 for(sec=20;sec>=0;sec--){
+    fndDisp(sec,0);  
+    if(pic_num == 1 )
+		{fndOff();}
     sleep(1);
   }
 		aa = 3;  
+		fndOff();
+		writeTextLcd("   Fail!!!   ","",1);
 	  pthread_exit(0);
-
+ 
    }
 
 
-/*void* dosome2(void *arg) //thread2 txtlcd에 온도표시
-{
-   
-char *name1 = "schoolsong";
-char *name2 = "solo";
-char *singer1 = "dont know";
-char *singer2 = "geny";
-char keyboard_1;  
 
-
-while(1)
-{
-
-
-}
-
-   }*/
 
 
 int main(void)
@@ -75,7 +68,8 @@ int main(void)
 	buzzerInit();        //buzzer
 	ledLibInit();   //led
 	pwmLedInit();              //pwmled
-
+   writeTextLcd("Welcome","",1);
+   writeTextLcd("","Press HomeButton",2);
 
 	int messageID = msgget(MESSAGE_ID, IPC_CREAT|0666);	//To Receive Message from Library.
 	BUTTON_MSG_T rxMsg;
@@ -87,10 +81,19 @@ int err,arr;
 
 while(1)
 {
+	int random = 0;
 	pwmSetPercent(0,0);
 	pwmSetPercent(0,1);
 	pwmSetPercent(100,2);
     show("start_pic.bmp");
+	
+	/*random open picture*/
+	do{	
+		srand(time(NULL));
+		random = (rand()%4)+2;				// puzzle1 은 정답이므로 랜덤하게 나와야하는건 2~6중 랜덤한 수를 하나 뽑아줌
+			
+		start_once1 =1;				//위에다 int로 선언해주기, 랜덤하게 스타트하는 부분이 1번만 실행되게 해주는 변수 
+	}while(start_once1 == 0);
 	
 
      while(1)   //Wait here until key home pressed.
@@ -101,13 +104,41 @@ while(1)
                 if (rxMsg.keyInput == KEY_HOME ) 
                  break;                                  
       }
-                
- show("puzzle3.bmp");
- pic_num = 3;
+                   writeTextLcd("","Game start!",2);
+ do{
+switch(random)
+{ case 2: 
+ 	show("puzzle2.bmp");
+ 	pic_num=2;
+	break;	
+ 
+  case 3: 
+ 	show("puzzle3.bmp");
+ 	pic_num=3;
+	break;	
+
+  case 4: 
+ 	show("puzzle4.bmp");
+ 	pic_num=4;
+	break;	
+ 
+  case 5: 
+ 	show("puzzle5.bmp");
+ 	pic_num=5;
+	break;	
+
+  case 6: 
+ 	show("puzzle6.bmp");
+ 	pic_num=6;
+	break;	
+
+}
+	start_once2=1;	
+}while(start_once2==0);
    
     		 err = pthread_create(&(tid[1]), NULL, &dosome, NULL); 
   
-		/*arr = pthread_create(&(tid[2]), NULL, &dosome2, NULL); */
+		
 
 int timeout = 0;
 
@@ -178,7 +209,8 @@ switch(pic_num)
                pic_num=1;
                  key_back_pressed = 0;
                  key_search_pressed = 0;
-                    sleep(2);
+                    sleep(1);
+                    fndOff(); 
                     show ("end_pic.bmp");
                 }
 			
@@ -194,7 +226,8 @@ switch(pic_num)
                 pic_num=1;
                 key_home_pressed = 0;
                 key_back_pressed = 0;
-                    sleep(2);
+                    sleep(1);
+                    fndOff(); 
                     show ("end_pic.bmp");                    
               }
         else if (key_home_pressed==1 && key_search_pressed==1)
@@ -280,7 +313,8 @@ switch(pic_num)
              pic_num=1;
                 key_home_pressed = 0;
                  key_search_pressed = 0;      
-                    sleep(2);
+                    sleep(1);
+                    fndOff(); 
                     show ("end_pic.bmp");      
                 }
         else if (key_back_pressed==1 && key_search_pressed==1)
@@ -293,12 +327,7 @@ switch(pic_num)
      break;
      
   }
-		/*case 7:
-		if(aa==3)
-	 {show("game_over.bmp");
-	 }
-		break;
-	}*/
+		
     
 
 
@@ -312,34 +341,34 @@ if(pic_num==1){
 	pwmSetPercent(100,2);
 	pwmInactiveAll();          //pwmled
 		ledLibRaw(0xFF);
-	usleep(500000);
+	usleep(200000);
 	ledLibRaw(0xAA);
-	usleep(500000);
+	usleep(200000);
 	ledLibRaw(0xFF);
-	usleep(500000);
+	usleep(200000);
 	ledLibRaw(0xAA);
-	usleep(500000);
+	usleep(200000);
 	ledLibRaw(0xFF);
-	usleep(500000);
+	usleep(200000);
 	ledLibRaw(0xAA);	
-	usleep(500000);	
+	usleep(200000);	
 	ledLibEXT();    //led
         buzzerPlaySong(0);
-        usleep(300000);
+        usleep(100000);
         buzzerPlaySong(1);
-        usleep(300000);        
+        usleep(100000);        
         buzzerPlaySong(2);
-        usleep(300000);
+        usleep(100000);
         buzzerPlaySong(3);
-        usleep(300000);
+        usleep(100000);
         buzzerPlaySong(4);
-        usleep(300000);
+        usleep(100000);
         buzzerPlaySong(5);
-        usleep(300000);
+        usleep(100000);
         buzzerPlaySong(6);
-        usleep(300000);
+        usleep(100000);
         buzzerPlaySong(7);
-        usleep(300000);
+        usleep(100000);
 		 buzzerStopSong();			
         buzzerExit();       //buzzer	
 
@@ -365,13 +394,15 @@ if(pic_num==1){
 		printf("Current Temp: %lf \n", temp);
 	                                     //temperature  
 
-   writeTextLcd("welcome","",1);
-   writeTextLcd("","oo",2);                                               
- 
+                                            
+     char s1[10];               
 
-  // fndDisp(11111,1);//
+    sprintf(s1, "Temp : %f", temp);   
 
-       /* fndOff(); */
+   writeTextLcd("   Done!!!   ","",1);
+   writeTextLcd("", s1 ,2);   
+
+        
 
 
 
